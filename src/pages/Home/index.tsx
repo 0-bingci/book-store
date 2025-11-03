@@ -1,6 +1,7 @@
 // BooksListPage.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGetBooksQuery } from '../../utils/apiSlice';
 
 const BooksListPage = () => {
   const navigate = useNavigate();
@@ -8,69 +9,7 @@ const BooksListPage = () => {
   const handleNavClick = (page) => {
     navigate(`/${page}`);
   };
-  // 静态书籍数据（仅用于展示结构）
-  const books = [
-    {
-      id: 1,
-      title: "The Great Adventure",
-      author: "John Smith",
-      categories: ["Fiction", "Adventure"],
-      price: 19.99,
-      year: 2020,
-      stockStatus: "In Stock",
-      stockClass: "bg-green-100 text-green-800"
-    },
-    {
-      id: 2,
-      title: "Advanced JavaScript",
-      author: "Jane Doe",
-      categories: ["Technology", "Programming"],
-      price: 39.99,
-      year: 2022,
-      stockStatus: "In Stock",
-      stockClass: "bg-green-100 text-green-800"
-    },
-    {
-      id: 3,
-      title: "World History",
-      author: "Robert Johnson",
-      categories: ["History", "Non-Fiction"],
-      price: 29.99,
-      year: 2019,
-      stockStatus: "Low Stock",
-      stockClass: "bg-yellow-100 text-yellow-800"
-    },
-    {
-      id: 4,
-      title: "Quantum Physics",
-      author: "Maria Garcia",
-      categories: ["Science", "Physics"],
-      price: 45.99,
-      year: 2021,
-      stockStatus: "Out of Stock",
-      stockClass: "bg-red-100 text-red-800"
-    },
-    {
-      id: 5,
-      title: "The Art of Cooking",
-      author: "Chef Michael",
-      categories: ["Cooking", "Non-Fiction"],
-      price: 24.99,
-      year: 2023,
-      stockStatus: "In Stock",
-      stockClass: "bg-green-100 text-green-800"
-    },
-    {
-      id: 6,
-      title: "Machine Learning Basics",
-      author: "Alan Turing",
-      categories: ["Technology", "AI"],
-      price: 49.99,
-      year: 2022,
-      stockStatus: "In Stock",
-      stockClass: "bg-green-100 text-green-800"
-    }
-  ];
+  const { data: books = [], isLoading, error } = useGetBooksQuery();
 
   return (
     <section id="books-list-page" className="page-transition">
@@ -108,7 +47,7 @@ const BooksListPage = () => {
       {/* 书籍网格区 */}
       <div id="books-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {books.map(book => (
-          <div key={book.id} className="book-card bg-white rounded-lg overflow-hidden card-shadow hover-lift" data-id={book.id} onClick={() => handleNavClick(`book-detail`)}>
+          <div key={book.id} className="book-card bg-white rounded-lg overflow-hidden card-shadow hover-lift" data-id={book.id} onClick={() => handleNavClick(`book-detail/${book.id}`)}>
             {/* 书籍封面占位区 */}
             <div className="h-48 bg-primary/10 flex items-center justify-center">
               <i className="fa fa-book text-5xl text-primary/30"></i>
