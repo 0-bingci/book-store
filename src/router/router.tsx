@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     path: '/', // 根路径
     element: <App />,
     children: [
-      { path: 'book', element: <Home /> },
+      { path: '', element: <Home /> },
       { path: 'book-detail', element: <BookDetail /> },
       { path: 'book-reader', element: <BookReader /> },
     ],
