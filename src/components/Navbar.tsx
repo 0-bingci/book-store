@@ -27,12 +27,13 @@ const Navbar = () => {
           >
             <i className="fa fa-list-ul mr-1"></i> 图书列表
           </button>
-          {/* <button 
-            onClick={() => handleNavClick('about')}
+          <button 
+            disabled={true}
+            onClick={() => handleNavClick('')}
             className="text-neutral-500 hover:text-primary transition-colors"
           >
             <i className="fa fa-info-circle mr-1"></i> 关于
-          </button> */}
+          </button>
         </nav>
         
         {/* 移动端菜单按钮 */}
@@ -58,7 +59,7 @@ const Navbar = () => {
           <i className="fa fa-list-ul mr-1"></i> Books
         </button>
         <button 
-          onClick={() => handleNavClick('about')}
+          onClick={() => handleNavClick('')}
           className="block w-full text-left py-2 text-neutral-500 hover:text-primary transition-colors"
         >
           <i className="fa fa-info-circle mr-1"></i> About

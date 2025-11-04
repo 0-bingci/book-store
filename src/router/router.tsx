@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     children: [
       { path: '', element: <Home /> },
       { path: 'book-detail/:id', element: <BookDetail /> },
-      { path: 'book-reader', element: <BookReader /> },
+      { path: 'book-reader/:id', element: <BookReader /> },
     ],
   },
 ]);

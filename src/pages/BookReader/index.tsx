@@ -1,106 +1,132 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetBookByIdQuery } from '../../utils/apiSlice';
 
+// 接收从书籍详情页传递的书籍信息（支持props传递或默认值）
 const BookReaderPage = () => {
   const navigate = useNavigate();
-  // 导航处理函数
-  const handleNavClick = (page) => {
-    navigate(`/${page}`);
-  };
-  
-  // 静态阅读页面数据（仅用于展示样式）
-  const book = {
-    title: "The Great Adventure",
-    author: "John Smith"
+  const [content, setContent] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const contentRef = useRef(null);
+  const { id } = useParams();
+  // 面包屑数据
+  const breadcrumbItems = [
+    { label: "首页", path: "/", isCurrent: false },
+    { label: "书籍详情", path: `/book-detail/${id}`, isCurrent: false },
+    { label: "阅读页面", path: `/book-reader/${id}`, isCurrent: true }
+  ];
+
+
+  // 获取书籍名称和作者
+  const { data: book } = useGetBookByIdQuery(id);
+  // 面包屑导航跳转
+  const handleBreadcrumbClick = (path) => {
+    if (path) navigate(path);
   };
 
+  // 回到顶部
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // 监听滚动显示返回顶部按钮
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 200);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 加载书籍内容
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch("/src/assets/book_content.txt");
+        if (!res.ok) throw new Error("内容加载失败");
+        const text = await res.text();
+        setContent(text);
+      } catch (err) {
+        console.error("加载失败:", err);
+        setContent("抱歉，无法加载书籍内容，请稍后重试");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchContent();
+  }, []);
+
+  // 解析文本内容
+  const parseContent = (text) => {
+    if (!text) return null;
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+    return lines.map((line, idx) => {
+      if (line.startsWith('# ')) return <h2 key={idx} className="text-xl md:text-2xl font-bold text-neutral-800 mt-8 mb-4">{line.slice(2)}</h2>;
+      if (line.startsWith('## ')) return <h3 key={idx} className="text-lg md:text-xl font-semibold text-neutral-700 mt-6 mb-3">{line.slice(3)}</h3>;
+      return <p key={idx} className="mb-4">{line}</p>;
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <section id="reading-page" className="page-transition min-h-screen flex items-center justify-center bg-neutral-50">
+        <div className="text-center">
+          <i className="fa fa-book text-4xl text-primary mb-4"></i>
+          <p className="text-neutral-600">Loading book content...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section id="reading-page" className="page-transition">
-      {/* 返回按钮与标题区 */}
-      <div className="mb-6">
-        <button className="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-4" onClick={() => handleNavClick("book-detail")}>
-          <i className="fa fa-arrow-left mr-1"></i> Back to Book Details
-        </button>
-        <h2 className="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-700 mb-2">
-          {book.title}
-        </h2>
-        <p className="text-neutral-500">by {book.author}</p>
+    <section id="reading-page" className="page-transition px-4 md:px-30 bg-white min-h-screen " ref={contentRef}>
+      {/* 面包屑导航区 */}
+      <div className="pt-6 pb-3">
+        <nav className="flex items-center text-sm text-neutral-600">
+          {breadcrumbItems.map((item, index) => (
+            <React.Fragment key={index}>
+              {!item.isCurrent ? (
+                <button
+                  onClick={() => handleBreadcrumbClick(item.path)}
+                  className="hover:text-primary transition-colors cursor-pointer"
+                >
+                  {item.label}
+                </button>
+              ) : (
+                <span className="text-neutral-800 font-medium">{item.label}</span>
+              )}
+              {index !== breadcrumbItems.length - 1 && (
+                <span className="mx-2 text-neutral-400">/</span>
+              )}
+            </React.Fragment>
+          ))}
+        </nav>
       </div>
-      
-      {/* 阅读主容器 */}
-      <div className="bg-white rounded-lg overflow-hidden card-shadow p-6 md:p-10 mb-6 max-w-3xl mx-auto">
-        {/* 阅读控制栏 */}
-        <div className="flex justify-between items-center mb-8 p-3 bg-neutral-100 rounded-lg">
-          <div className="flex items-center gap-4">
-            <button className="text-neutral-600 hover:text-primary transition-colors">
-              <i className="fa fa-font"></i>
-            </button>
-            <button className="text-neutral-600 hover:text-primary transition-colors">
-              <i className="fa fa-adjust"></i>
-            </button>
-          </div>
-          <div>
-            <span className="text-neutral-500 text-sm">Page 1 of 245</span>
-          </div>
-        </div>
-        
-        {/* 书籍内容区 */}
-        <div className="prose max-w-none text-neutral-700 leading-relaxed">
-          <p className="mb-4">Chapter 1: The Journey Begins</p>
-          
-          <p className="mb-4">
-            The sun rose gently over the horizon, casting a warm golden glow across the small village. 
-            Young Thomas stood at the edge of town, his backpack slung over one shoulder, gazing at the 
-            distant mountains that had captivated his imagination since childhood.
-          </p>
-          
-          <p className="mb-4">
-            "Are you sure about this?" called his mother from the doorway of their cottage. Her voice was 
-            tinged with concern, but Thomas detected a hint of pride beneath it.
-          </p>
-          
-          <p className="mb-4">
-            He turned and smiled. "I've never been more sure of anything, Mother. The stories aren't just 
-            tales—there's something out there, waiting to be discovered."
-          </p>
-          
-          <p className="mb-4">
-            She walked toward him and placed a hand on his cheek. "Your father would be proud," she said 
-            softly. "Just promise me you'll be careful. The world is bigger than you imagine, and not all 
-            who wander are lost—but some do lose their way."
-          </p>
-          
-          <p className="mb-4">
-            Thomas hugged her tightly. "I promise. And I'll come back, with stories of my own to tell."
-          </p>
-          
-          <p className="mb-4">
-            With that, he shouldered his pack and set off down the path that led to the mountains. The 
-            journey ahead would test his courage, his wits, and his determination. But as he took his first 
-            steps into the unknown, he felt a sense of excitement unlike anything he had ever experienced.
-          </p>
-          
-          <p className="mb-4">
-            The road wound through green fields and past small farms, each one growing smaller as he 
-            traveled farther from home. By midday, he reached the base of the mountains and paused to 
-            catch his breath. The peaks loomed above him, their snow-capped summits glistening in the sun.
-          </p>
-          
-          <p className="mb-4">
-            "Well, here goes nothing," he muttered to himself, and began the steep ascent.
-          </p>
-        </div>
-        
-        {/* 分页控制 */}
-        <div className="flex justify-between items-center mt-10 pt-6 border-t border-neutral-200">
-          <button className="text-primary hover:text-primary/80 transition-colors flex items-center opacity-50 cursor-not-allowed">
-            <i className="fa fa-chevron-left mr-2"></i> Previous Page
-          </button>
-          <button className="text-primary hover:text-primary/80 transition-colors flex items-center">
-            Next Page <i className="fa fa-chevron-right ml-2"></i>
-          </button>
-        </div>
+
+      {/* 书籍名称与作者区 */}
+      <div className="mb-8 pb-4 border-b border-neutral-200">
+        <h1 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-2">{book?.title || "默认书籍名称"}</h1>
+        <p className="text-neutral-500 text-base">作者：{book?.author || "未知作者"}</p>
       </div>
+
+      {/* 书籍内容区 */}
+      <div className="prose max-w-none text-neutral-700 leading-relaxed">
+        {parseContent(content)}
+      </div>
+
+      {/* 返回顶部按钮 - 侧边悬浮 */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black text-white shadow-lg transition-all duration-300 hover:bg-primary/90 focus:outline-none z-20 ${
+          showScrollTop ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10 pointer-events-none'
+        }`}
+        aria-label="回到顶部"
+      >
+        <i className="fa fa-arrow-up mr-1"></i>
+        <span>返回顶部</span>
+      </button>
     </section>
   );
 };

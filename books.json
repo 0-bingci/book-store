@@ -1,18 +1,18 @@
 {
   "books": [
     {
-      "id": "bk-0001",
       "title": "Horizons the First Shadows",
       "author": "Avery Jones",
       "publishedYear": 1963,
+      "price": 17.36,
+      "stock": 118,
       "categories": [
         "Biology",
         "Children",
         "Drama"
       ],
-      "price": 17.39,
       "summary": "Amet sit tempor ullamco nisi mollit sit nostrud sint laboris proident consequat lorem enim occaecat voluptate consequat ut ullamco voluptate ut tempor eu incididunt esse velit ea consectetur sunt laborum et.",
-      "stock": 118
+      "id": "bk-0001"
     },
     {
       "id": "bk-0002",
@@ -435,7 +435,7 @@
       "categories": [
         "Drama"
       ],
-      "price": 12.0,
+      "price": 12,
       "summary": "In et excepteur esse occaecat adipiscing duis dolor esse ut mollit ullamco ut qui laboris ut velit dolore labore consequat laboris occaecat sit commodo sit veniam commodo dolor voluptate velit lorem veniam aliqua pariatur sed.",
       "stock": 18
     },
@@ -1057,7 +1057,7 @@
         "Philosophy",
         "Health"
       ],
-      "price": 53.0,
+      "price": 53,
       "summary": "Tempor enim irure consectetur ullamco reprehenderit aliqua tempor aliquip esse nulla anim adipiscing irure ea minim sit pariatur proident aliquip incididunt.",
       "stock": 59
     },
@@ -4037,7 +4037,7 @@
         "Chemistry",
         "Biography"
       ],
-      "price": 151.0,
+      "price": 151,
       "summary": "Deserunt in ut reprehenderit in qui anim eiusmod ut occaecat do eu dolore ipsum enim id et ad nostrud non labore amet occaecat deserunt ad est officia magna sint pariatur ipsum aute et.",
       "stock": 55
     },
@@ -7015,7 +7015,7 @@
       "categories": [
         "Business"
       ],
-      "price": 58.0,
+      "price": 58,
       "summary": "Ad anim nulla ipsum reprehenderit ad et amet enim pariatur magna sunt consectetur nulla pariatur aute elit dolor.",
       "stock": 107
     },
@@ -7658,7 +7658,7 @@
         "Religion",
         "History"
       ],
-      "price": 119.0,
+      "price": 119,
       "summary": "Veniam do dolore irure ut amet consequat ea amet laboris minim enim velit quis aliquip exercitation minim lorem ad aliquip esse sed consectetur.",
       "stock": 19
     },
@@ -8700,7 +8700,7 @@
       "categories": [
         "Drama"
       ],
-      "price": 31.0,
+      "price": 31,
       "summary": "Laborum consequat culpa reprehenderit ut est quis esse irure amet lorem commodo tempor amet commodo proident labore nisi.",
       "stock": 47
     },
@@ -10966,7 +10966,7 @@
         "Sociology",
         "Poetry"
       ],
-      "price": 142.0,
+      "price": 142,
       "summary": "Sed nostrud ullamco cupidatat minim in occaecat sint tempor veniam deserunt ut aute dolore labore labore ut sit ad tempor exercitation mollit eiusmod laboris consectetur tempor aute dolor amet enim est adipiscing est.",
       "stock": 91
     },
@@ -11607,7 +11607,7 @@
       "categories": [
         "Thriller"
       ],
-      "price": 98.0,
+      "price": 98,
       "summary": "Occaecat velit nulla ea in id non fugiat fugiat ea ea non eiusmod velit esse ut consequat non ex in amet dolore ex sit cillum ut non deserunt ad lorem commodo est nulla.",
       "stock": 40
     },
@@ -12710,7 +12710,7 @@
       "categories": [
         "History"
       ],
-      "price": 138.0,
+      "price": 138,
       "summary": "Elit in ut ad non nulla mollit ut in enim in anim adipiscing mollit proident in qui ut.",
       "stock": 7
     },
@@ -13541,7 +13541,7 @@
       "categories": [
         "Economics"
       ],
-      "price": 73.0,
+      "price": 73,
       "summary": "Dolor magna nulla in qui non dolore dolore cupidatat sint aute adipiscing ullamco incididunt occaecat nostrud pariatur culpa id sed sunt in ut ea sed aliquip voluptate aliquip officia fugiat.",
       "stock": 113
     },
@@ -16762,7 +16762,7 @@
         "Novel",
         "Computer Science"
       ],
-      "price": 77.0,
+      "price": 77,
       "summary": "Irure cillum nostrud commodo deserunt exercitation dolore elit lorem excepteur amet labore dolore nostrud in nostrud sit esse laboris minim velit cupidatat minim dolor.",
       "stock": 86
     },
@@ -18082,7 +18082,7 @@
         "Economics",
         "Sci-Fi"
       ],
-      "price": 84.0,
+      "price": 84,
       "summary": "Occaecat voluptate dolor tempor sint irure anim officia commodo quis minim lorem exercitation aliqua ad eu pariatur mollit culpa sit exercitation culpa cillum dolore officia laborum dolore.",
       "stock": 100
     },
@@ -18106,7 +18106,7 @@
       "categories": [
         "Biography"
       ],
-      "price": 196.0,
+      "price": 196,
       "summary": "Mollit elit qui sed elit adipiscing aliqua ex in est est occaecat commodo labore sunt ut fugiat qui aliquip laboris nostrud aliquip.",
       "stock": 64
     },
@@ -20230,7 +20230,7 @@
         "Chemistry",
         "Biography"
       ],
-      "price": 75.0,
+      "price": 75,
       "summary": "Sed officia voluptate velit exercitation ullamco in nostrud irure qui in cupidatat ullamco elit cupidatat in laborum esse anim aliqua sunt cupidatat esse irure fugiat.",
       "stock": 109
     },
@@ -20297,7 +20297,7 @@
         "Mathematics",
         "Technology"
       ],
-      "price": 54.0,
+      "price": 54,
       "summary": "Labore quis tempor aute in nisi duis ipsum in magna dolor non laborum ex velit id consequat in laborum irure adipiscing minim dolore enim non qui eu lorem dolore incididunt adipiscing.",
       "stock": 54
     },
@@ -21951,7 +21951,7 @@
       "categories": [
         "Business"
       ],
-      "price": 173.0,
+      "price": 173,
       "summary": "Dolore nisi reprehenderit consectetur pariatur id dolor ullamco aliquip laboris fugiat sit nulla aliqua occaecat nostrud aliqua nisi labore magna aute culpa mollit culpa consequat esse ex.",
       "stock": 102
     },
@@ -22197,7 +22197,7 @@
         "Business",
         "Sociology"
       ],
-      "price": 25.0,
+      "price": 25,
       "summary": "Consectetur occaecat nulla dolor dolore mollit sit laborum reprehenderit sint lorem dolore incididunt deserunt adipiscing mollit mollit mollit ipsum non aliqua consequat.",
       "stock": 19
     },
@@ -25547,7 +25547,7 @@
       "categories": [
         "Religion"
       ],
-      "price": 132.0,
+      "price": 132,
       "summary": "Qui ut laboris aliqua ut elit veniam adipiscing consectetur ut labore consequat est magna labore eu velit dolor anim.",
       "stock": 107
     },

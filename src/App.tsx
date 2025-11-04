@@ -10,7 +10,7 @@ function App() {
     <>
       <Navbar />
       <Provider store={store}> {/* 包裹应用，提供 Redux store */}
-        <div className="w-full px-4 py-6 h-full flex flex-col items-center justify-center">
+        <div className="w-full px-4 py-6 h-full flex flex-col items-center justify-center bg-neutral-50">
           <Outlet />
         </div>
       </Provider>
