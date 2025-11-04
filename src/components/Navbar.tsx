@@ -6,7 +6,7 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // 导航处理函数
-  const handleNavClick = (page) => {
+  const handleNavClick = (page: string) => {
     navigate(`/${page}`);
     setMobileMenuOpen(false); // 关闭移动端菜单
   };

@@ -1,36 +1,38 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, type JSX } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetBookByIdQuery } from '../../utils/apiSlice';
+import type { BreadcrumbItem } from '../../types/index';
 
-// 接收从书籍详情页传递的书籍信息（支持props传递或默认值）
-const BookReaderPage = () => {
+const BookReaderPage: React.FC = () => {
   const navigate = useNavigate();
-  const [content, setContent] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  const contentRef = useRef(null);
-  const { id } = useParams();
-  // 面包屑数据
-  const breadcrumbItems = [
+  // 为状态添加明确类型
+  const [content, setContent] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
+  // 明确ref引用的元素类型（option元素）
+  const contentRef = useRef<HTMLOptionElement>(null);
+  // 明确路由参数类型（id为string或undefined）
+  const { id } = useParams<{ id: string }>();
+
+  // 面包屑数据指定为BreadcrumbItem数组类型
+  const breadcrumbItems: BreadcrumbItem[] = [
     { label: "首页", path: "/", isCurrent: false },
     { label: "书籍详情", path: `/book-detail/${id}`, isCurrent: false },
     { label: "阅读页面", path: `/book-reader/${id}`, isCurrent: true }
   ];
 
-
-  // 获取书籍名称和作者
+  // 明确book的类型为Book | undefined（API查询结果可能为undefined）
   const { data: book } = useGetBookByIdQuery(id);
-  // 面包屑导航跳转
-  const handleBreadcrumbClick = (path) => {
+
+  // 明确path参数类型为string
+  const handleBreadcrumbClick = (path: string) => {
     if (path) navigate(path);
   };
 
-  // 回到顶部
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // 监听滚动显示返回顶部按钮
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 200);
@@ -39,7 +41,6 @@ const BookReaderPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 加载书籍内容
   useEffect(() => {
     const fetchContent = async () => {
       try {
@@ -55,11 +56,14 @@ const BookReaderPage = () => {
         setIsLoading(false);
       }
     };
-    fetchContent();
-  }, []);
+    // 只有id存在时才加载内容（避免无效请求）
+    if (id) {
+      fetchContent();
+    }
+  }, [id]); // 添加id作为依赖项（id变化时重新加载）
 
-  // 解析文本内容
-  const parseContent = (text) => {
+  // 明确参数类型为string，返回值类型为JSX元素数组或null
+  const parseContent = (text: string): JSX.Element[] | null => {
     if (!text) return null;
     const lines = text.split('\n').filter(line => line.trim() !== '');
     return lines.map((line, idx) => {
@@ -76,6 +80,15 @@ const BookReaderPage = () => {
           <i className="fa fa-book text-4xl text-primary mb-4"></i>
           <p className="text-neutral-600">Loading book content...</p>
         </div>
+      </section>
+    );
+  }
+
+  // 处理id不存在的边界情况
+  if (!id) {
+    return (
+      <section className="min-h-screen flex items-center justify-center">
+        <p className="text-neutral-600">书籍ID不存在，请检查链接是否正确</p>
       </section>
     );
   }

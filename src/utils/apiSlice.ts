@@ -39,7 +39,7 @@ export const apiSlice = createApi({
         return `/books?${params.toString()}`;
       },
       transformResponse: (response, meta) => {
-        const totalCount = meta.response.headers.get("X-Total-Count");
+        const totalCount = meta?.response?.headers.get("X-Total-Count");
         return {
           books: response,
           totalCount: Number(totalCount) || 2000,
@@ -52,7 +52,7 @@ export const apiSlice = createApi({
       query: () => "/books?_fields=categories", // 只请求categories字段，减少数据传输
       transformResponse: (response) => {
         // 从所有书籍中提取分类，去重后返回
-        const allCategories = response.reduce((acc, book) => {
+        const allCategories = response.reduce((acc: Set<string>, book: { categories?: string[] }) => {
           if (book.categories && book.categories.length) {
             book.categories.forEach(cat => acc.add(cat));
           }

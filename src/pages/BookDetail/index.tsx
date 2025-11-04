@@ -69,23 +69,23 @@ const BookDetailPage = () => {
   }, [successMessage]);
 
   // 导航处理
-  const handleNavClick = (page) => {
+  const handleNavClick = (page: string) => {
     navigate(`/${page}`);
   };
 
   // 面包屑导航跳转
-  const handleBreadcrumbClick = (path) => {
+  const handleBreadcrumbClick = (path: string) => {
     if (path) navigate(path);
   };
 
   // 表单输入变化处理
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // 表单提交（更新书籍）- 核心修复
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     // 1. 处理分类数据（分割为数组，过滤空值）
@@ -119,7 +119,7 @@ const BookDetailPage = () => {
     } catch (err) {
       console.error('更新失败:', err);
       // 6. 错误提示（更友好的用户反馈）
-      alert(`更新失败: ${err.message || '请稍后重试'}`);
+      alert(`更新失败: ${(err as Error).message || '请稍后重试'}`);
     }
   };
 
@@ -240,7 +240,7 @@ const BookDetailPage = () => {
             <div className="md:w-2/3 p-6 md:p-8">
               {/* 分类标签 */}
               <div className="flex flex-wrap gap-2 mb-6">
-                {book.categories?.map((category, index) => (
+                {book.categories?.map((category: string, index: number) => (
                   <span key={index} className="bg-neutral-100 text-neutral-600 text-sm px-3 py-1 rounded-full">
                     {category}
                   </span>
@@ -423,7 +423,7 @@ const BookDetailPage = () => {
                   <textarea
                     id="summary"
                     name="summary"
-                    rows="5"
+                    rows={5}
                     value={formData.summary}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"

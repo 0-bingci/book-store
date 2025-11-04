@@ -8,3 +8,9 @@ export type Book = {
   summary?: string;
   stock: number; // 库存
 };
+// 定义面包屑项类型接口
+export interface BreadcrumbItem {
+  label: string;
+  path: string;
+  isCurrent: boolean;
+}

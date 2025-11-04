@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetBooksQuery, useGetAllCategoriesQuery } from '../../utils/apiSlice';
-
+import type { Book } from '../../types';
 const BooksListPage = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({
@@ -12,7 +12,7 @@ const BooksListPage = () => {
   });
 
   // 调用分类接口（获取所有可用分类）
-  const { data: allCategories = [], isLoading: isLoadingCategories } = useGetAllCategoriesQuery();
+  const { data: allCategories = [], isLoading: isLoadingCategories } = useGetAllCategoriesQuery(undefined);
 
   // 调用书籍接口（带分类筛选参数）
   const { 
@@ -24,12 +24,12 @@ const BooksListPage = () => {
   const totalPages = Math.ceil(totalCount / searchParams.limit);
 
   // 导航到详情页
-  const handleNavClick = (page) => {
+  const handleNavClick = (page: string) => {
     navigate(`/${page}`);
   };
 
   // 搜索处理
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchParams(prev => ({
       ...prev,
       query: e.target.value,
@@ -38,7 +38,7 @@ const BooksListPage = () => {
   };
 
   // 分类筛选处理（核心新增）
-  const handleCategoryChange = (e) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
     setSearchParams(prev => ({
       ...prev,
@@ -48,7 +48,7 @@ const BooksListPage = () => {
   };
 
   // 页码切换
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
     setSearchParams(prev => ({ ...prev, page: newPage }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -66,7 +66,7 @@ const BooksListPage = () => {
           
           <div className="bg-white rounded-lg p-4 mb-6 card-shadow">
             <div className="flex flex-col md:flex-row gap-4">
-              <div className="relative flex-grow">
+              <div className="relative grow">
                 <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400"></i>
                 <input 
                   type="text" 
@@ -129,7 +129,7 @@ const BooksListPage = () => {
         {/* 搜索和筛选区（分类下拉框动态生成） */}
         <div className="bg-white rounded-lg p-4 mb-6 card-shadow">
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative flex-grow">
+            <div className="relative grow">
               <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400"></i>
               <input 
                 type="text" 
@@ -147,9 +147,9 @@ const BooksListPage = () => {
               >
                 <option value="all">All Categories</option>
                 {/* 动态生成分类选项（从接口获取） */}
-                {allCategories.map(category => (
-                  <option key={category} value={category}>
-                    {category}
+                {allCategories.map((category: unknown) => (
+                  <option key={category as string} value={category as string}>
+                    {category as string}
                   </option>
                 ))}
               </select>
@@ -161,7 +161,7 @@ const BooksListPage = () => {
         {books.length > 0 ? (
           <>
             <div id="books-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {books.map(book => (
+              {books.map((book: Book) => (
                 <div 
                   key={book.id} 
                   className="book-card bg-white rounded-lg overflow-hidden card-shadow hover:shadow-lg transition-shadow cursor-pointer" 
@@ -190,7 +190,7 @@ const BooksListPage = () => {
                     <p className="text-neutral-500 text-sm mb-2">by {book.author}</p>
                     
                     <div className="flex flex-wrap gap-1 mb-3">
-                      {book.categories?.map((category, index) => (
+                      {book.categories?.map((category: string, index: number) => (
                         <span key={index} className="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded">
                           {category}
                         </span>
